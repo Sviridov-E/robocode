@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import { Container, CssBaseline, makeStyles, ThemeProvider } from '@material-ui/core';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { WelcomePage } from './pages/WelcomePage';
+import { useCommonTheme } from './useCommonTheme';
+import { MainPage } from './pages/MainPage';
+import { LoginPage } from './pages/LoginPage';
+
+const useStyles = makeStyles({
+  root: {
+    height: '100vh',
+  }
+})
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const classes = useStyles();
+  const theme = useCommonTheme();
+
+  const history = useHistory();
+
+  useEffect(() => {
+    const isBeenThere = window.localStorage.getItem('isBeenThere');
+    if(!isBeenThere) history.push('/welcome');
+  }, [history])
+
+    return (
+      <>
+        <ThemeProvider theme={theme}>
+          <CssBaseline/>
+          <Container className={classes.root} fixed>
+            <Switch>
+              <Route path="/" exact>
+                <MainPage/>
+              </Route>
+              <Route path="/welcome" exact>
+                <WelcomePage/>
+              </Route>
+              <Route path="/login" exact>
+                <LoginPage/>
+              </Route>
+            </Switch>
+          </Container>
+        </ThemeProvider>
+      </>
+    )
 }
 
 export default App;
