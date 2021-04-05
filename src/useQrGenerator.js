@@ -11,7 +11,7 @@ export const useQrGenerator = () => {
         const opt = {
             errorCorrectionLevel: 'H',
             margin: 1,
-            scale: 12
+            scale: 6
         }
         const s = await QRCode.toDataURL(str, opt);
         setBase(s)

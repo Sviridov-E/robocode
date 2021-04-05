@@ -12,7 +12,7 @@ export const EncodeText = ({setEncodingData}) => {
 
     return (
         <>
-            <TextField label="Text to encode!" variant="outlined" fullWidth value={state} onChange={changeDataToEncode}/>
+            <TextField multiline label="Text to encode" placeholder="Write some text!" variant="outlined" fullWidth value={state} onChange={changeDataToEncode}/>
         </>
     );
 }

@@ -12,7 +12,7 @@ export const EncodeLink = ({setEncodingData}) => {
 
     return (
         <>
-            <TextField label="Link to encode!" variant="outlined" fullWidth value={state} onChange={changeDataToEncode}/>
+            <TextField label="Link" placeholder="example.com" variant="outlined" fullWidth value={state} onChange={changeDataToEncode}/>
         </>
     );
 }

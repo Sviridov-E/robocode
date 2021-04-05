@@ -1,7 +1,9 @@
-import { AppBar, Box, Button, ButtonBase, Grid, makeStyles, Paper, Tab, Tabs, Toolbar, Typography, useMediaQuery } from '@material-ui/core';
+import { AppBar, Box, Button, Grid, makeStyles, Paper, Tab, Tabs, Toolbar, Typography, useMediaQuery } from '@material-ui/core';
 import TextFormatIcon from '@material-ui/icons/TextFormat';
 import PhoneIcon from '@material-ui/icons/Phone';
 import LinkIcon from '@material-ui/icons/Link';
+import WifiIcon from '@material-ui/icons/Wifi';
+import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
 import { grey } from '@material-ui/core/colors';
 import React, { useState } from 'react';
 import { useQrGenerator } from '../useQrGenerator';
@@ -23,10 +25,14 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
         width: '100%',
-        height: '80vh',
+        minHeight: '80vh',
     },
     typographyInTab: {
         marginLeft: '8px',
+    },
+    tabBox: {
+        display: 'flex',
+        alignItems: 'center'
     },
     qrWrapper: {
         padding: theme.spacing(1)
@@ -78,9 +84,11 @@ export const MainPage = () => {
                             onChange={handleChangeTypeOfData}
                             centered
                         >
-                            <Tab label={<ButtonBase disableRipple><TextFormatIcon/><Typography className={classes.typographyInTab} variant="button">Text</Typography></ButtonBase>}/>
-                            <Tab label={<ButtonBase disableRipple><PhoneIcon/><Typography className={classes.typographyInTab} variant="button">Phone</Typography></ButtonBase>}/>
-                            <Tab label={<ButtonBase disableRipple><LinkIcon/><Typography className={classes.typographyInTab} variant="button">Link</Typography></ButtonBase>}/>
+                            <Tab label={<Box className={classes.tabBox}><TextFormatIcon/><Typography className={classes.typographyInTab} variant="button">Text</Typography></Box>}/>
+                            <Tab label={<Box className={classes.tabBox}><PhoneIcon/><Typography className={classes.typographyInTab} variant="button">Phone</Typography></Box>}/>
+                            <Tab label={<Box className={classes.tabBox}><LinkIcon/><Typography className={classes.typographyInTab} variant="button">Link</Typography></Box>}/>
+                            <Tab label={<Box className={classes.tabBox}><WifiIcon/><Typography className={classes.typographyInTab} variant="button">WiFi</Typography></Box>}/>
+                            <Tab label={<Box className={classes.tabBox}><BusinessCenterIcon/><Typography className={classes.typographyInTab} variant="button">Card</Typography></Box>}/>
                         </Tabs>
                         <Box className={classes.boxContent}>
                             <form noValidate autoComplete="off" onSubmit={submitHandler}>

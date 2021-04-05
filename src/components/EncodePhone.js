@@ -12,7 +12,7 @@ export const EncodePhone = ({setEncodingData}) => {
 
     return (
         <>
-            <TextField multiline label="Phone number to encode!" variant="outlined" fullWidth value={state} onChange={changeDataToEncode}/>
+            <TextField multiline label="Phone number" placeholder="+12345678901" variant="outlined" fullWidth value={state} onChange={changeDataToEncode}/>
         </>
     );
 }
