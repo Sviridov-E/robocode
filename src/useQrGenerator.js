@@ -23,6 +23,7 @@ export const useQrGenerator = () => {
     async (str) => {
       if (!str) return;
       const png = await QRCode.toDataURL(str, options);
+      console.log(str)
       setBase((base) => ({ ...base, raw: str, png }));
     },
     [setBase, options]
@@ -70,5 +71,5 @@ export const useQrGenerator = () => {
     saveImage({blob, type: 'webp'});
   }, [base, options, saveImage])
 
-  return { createQr, qr, saveSVG, savePNG, saveJPG, saveWEBP };
+  return { createQr, qr, saveSVG, savePNG, saveJPG, saveWEBP, encodedContent: base.raw };
 };

@@ -21,6 +21,8 @@ import React, { useState } from "react";
 import { useQrGenerator } from "../useQrGenerator";
 import { DataToEncodeForm } from "../components/DataToEncodeForm";
 import { DownloadCodeButton } from "../components/DownloadCodeButton";
+import { useUserData } from "../useUserData";
+import { Toast } from "../components/Toast";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,13 +69,27 @@ export const MainPage = () => {
   const [typeOfData, setTypeOfData] = useState(0);
   const handleChangeTypeOfData = (e, val) => setTypeOfData(val);
 
-  const { qr, createQr, saveSVG, savePNG, saveJPG, saveWEBP } = useQrGenerator();
+  const { qr, createQr, saveSVG, savePNG, saveJPG, saveWEBP, encodedContent } = useQrGenerator();
   const savers = [savePNG, saveJPG, saveSVG, saveWEBP];
+
+  const { saveCode } = useUserData();
 
   const submitHandler = (e) => {
     e.preventDefault();
     createQr(encodingData);
   };
+
+  const [toast, setToast] = useState({
+    isOpen: false,
+  });
+
+  const saveClickHandler = () => {
+    saveCode(encodedContent);
+    setToast({
+      isOpen: true,
+      content: "The code was successfully saved"
+    })
+  }
 
   return (
     <>
@@ -186,7 +202,7 @@ export const MainPage = () => {
               </Grid>
               <Grid className={classes.bottomButtons} container justify="center">
                 <Grid container item xs={6}>
-                  <Grid item container xs justify="center"><Button disabled={!qr} variant="contained" color="primary" style={{width: 160}}>save</Button></Grid>
+                  <Grid item container xs justify="center"><Button onClick={saveClickHandler} disabled={!qr} variant="contained" color="primary" style={{width: 160}}>save</Button></Grid>
                   <Grid item container xs justify="center"><DownloadCodeButton savers={savers} disabled={!qr} /></Grid>
                 </Grid>
               </Grid>
@@ -194,6 +210,11 @@ export const MainPage = () => {
           </Paper>
         </Grid>
       </Grid>
+      <Toast
+        open={toast.isOpen}
+        content={toast.content}
+        closeHandler={() => setToast({...toast, isOpen: false})}
+      />
     </>
   );
 };
