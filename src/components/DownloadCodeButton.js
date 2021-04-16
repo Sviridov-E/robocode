@@ -9,7 +9,7 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 
-const options = ['png', 'jpg', 'svg', 'webp'];
+const options = ['PNG', 'JPG', 'SVG', 'WebP'];
 
 export const DownloadCodeButton = ({disabled, savers}) => {
   const [open, setOpen] = React.useState(false);

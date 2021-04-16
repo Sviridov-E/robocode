@@ -2,9 +2,10 @@ import { Container, CssBaseline, makeStyles, ThemeProvider } from '@material-ui/
 import { Route, Switch, useHistory } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import { WelcomePage } from './pages/WelcomePage';
-import { useCommonTheme } from './useCommonTheme';
+import { useCommonTheme } from './reactHooks/useCommonTheme';
 import { MainPage } from './pages/MainPage';
 import { LoginPage } from './pages/LoginPage';
+import { SavedPage } from './pages/SavedPage';
 
 const useStyles = makeStyles({
   root: {
@@ -29,14 +30,11 @@ function App() {
           <CssBaseline/>
           <Container className={classes.root} fixed>
             <Switch>
-              <Route path="/" exact>
+              <Route path="/main">
                 <MainPage/>
               </Route>
               <Route path="/welcome" exact>
                 <WelcomePage/>
-              </Route>
-              <Route path="/login" exact>
-                <LoginPage/>
               </Route>
             </Switch>
           </Container>
