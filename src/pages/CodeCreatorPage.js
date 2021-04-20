@@ -13,12 +13,12 @@ import PhoneIcon from "@material-ui/icons/Phone";
 import LinkIcon from "@material-ui/icons/Link";
 import WifiIcon from "@material-ui/icons/Wifi";
 import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useQrGenerator } from "../reactHooks/useQrGenerator";
 import { DataToEncodeForm } from "../components/DataToEncodeForm";
 import { DownloadCodeButton } from "../components/DownloadCodeButton";
 import { useUserData } from "../reactHooks/useUserData";
-import { Toast } from "../components/Toast";
+import { ToastContext } from "../context/ToastContext";
 
 const useStyles = makeStyles((theme) => ({
   boxContent: {
@@ -62,21 +62,16 @@ export const CodeCreatorPage = () => {
 
   const { saveCode } = useUserData();
 
+  const { openToast } = useContext(ToastContext);
+
   const submitHandler = (e) => {
     e.preventDefault();
     createQr(encodingData);
   };
 
-  const [toast, setToast] = useState({
-    isOpen: false,
-  });
-
   const saveClickHandler = () => {
     saveCode(encodedContent);
-    setToast({
-      isOpen: true,
-      content: "The code was successfully saved",
-    });
+    openToast({content: 'Code was successfully saved!'})
   };
 
   return (
@@ -180,11 +175,6 @@ export const CodeCreatorPage = () => {
           </Grid>
         </Grid>
       </Box>
-      <Toast
-        open={toast.isOpen}
-        content={toast.content}
-        closeHandler={() => setToast({ ...toast, isOpen: false })}
-      />
     </>
   );
 };

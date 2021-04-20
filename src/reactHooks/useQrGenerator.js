@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import parser from "html-react-parser";
+import { useCallback, useMemo, useState } from "react";
 import QRCode from "qrcode";
 
 export const useQrGenerator = () => {
@@ -8,7 +7,7 @@ export const useQrGenerator = () => {
     png: null,
   });
 
-  const [options, setOptions] = useState({
+  const [options] = useState({
     errorCorrectionLevel: "H",
     margin: 1,
     scale: 6,

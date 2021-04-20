@@ -1,17 +1,23 @@
-import { Container, CssBaseline, makeStyles, ThemeProvider } from '@material-ui/core';
-import { Route, Switch, useHistory } from 'react-router-dom';
-import React, { useEffect } from 'react';
-import { WelcomePage } from './pages/WelcomePage';
-import { useCommonTheme } from './reactHooks/useCommonTheme';
-import { MainPage } from './pages/MainPage';
-import { LoginPage } from './pages/LoginPage';
-import { SavedPage } from './pages/SavedPage';
+import {
+  Container,
+  CssBaseline,
+  makeStyles,
+  ThemeProvider,
+} from "@material-ui/core";
+import { Redirect, Route, Switch, useHistory } from "react-router-dom";
+import React, { useEffect } from "react";
+import { WelcomePage } from "./pages/WelcomePage";
+import { useCommonTheme } from "./reactHooks/useCommonTheme";
+import { MainPage } from "./pages/MainPage";
+import { ToastContext } from "./context/ToastContext";
+import { useToast } from "./reactHooks/useToast";
+import { Toast } from "./components/Toast";
 
 const useStyles = makeStyles({
   root: {
-    height: '100vh',
-  }
-})
+    height: "100vh",
+  },
+});
 
 function App() {
   const classes = useStyles();
@@ -20,27 +26,35 @@ function App() {
   const history = useHistory();
 
   useEffect(() => {
-    const isBeenThere = window.localStorage.getItem('isBeenThere');
-    if(!isBeenThere) history.push('/welcome');
-  }, [history])
+    const isBeenThere = window.localStorage.getItem("isBeenThere");
+    if (!isBeenThere) return history.push("/welcome");
+  }, [history]);
 
-    return (
-      <>
-        <ThemeProvider theme={theme}>
-          <CssBaseline/>
+  const toast = useToast();
+
+  return (
+    <>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <ToastContext.Provider value={{ ...toast }}>
           <Container className={classes.root} fixed>
             <Switch>
               <Route path="/main">
-                <MainPage/>
+                <MainPage />
               </Route>
-              <Route path="/welcome" exact>
-                <WelcomePage/>
+              <Route path="/welcome">
+                <WelcomePage />
+              </Route>
+              <Route path="/">
+                <Redirect to="/main"/>
               </Route>
             </Switch>
           </Container>
-        </ThemeProvider>
-      </>
-    )
+          <Toast/>
+        </ToastContext.Provider>
+      </ThemeProvider>
+    </>
+  );
 }
 
 export default App;

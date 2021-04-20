@@ -1,31 +1,28 @@
 import { Snackbar } from "@material-ui/core";
 import MuiAlert from '@material-ui/lab/Alert';
-import React from "react";
+import React, { useContext } from "react";
+import { ToastContext } from "../context/ToastContext";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export const Toast = ({
-  type = "success",
-  content = "Empty toast",
-  timeout = 4000,
-  closeHandler,
-  open
-}) => {
+export const Toast = () => {
+
+  const { state, closeToast } = useContext(ToastContext);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
 
-    closeHandler();
+    closeToast();
   };
 
   return (
-    <Snackbar open={open} autoHideDuration={timeout} onClose={handleClose}>
-      <Alert onClose={handleClose} severity={type}>
-        {content}
+    <Snackbar open={state.open} autoHideDuration={state.timeout} onClose={handleClose}>
+      <Alert onClose={handleClose} severity={state.type}>
+        {state.content}
       </Alert>
     </Snackbar>
   );

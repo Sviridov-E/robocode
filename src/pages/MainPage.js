@@ -15,7 +15,7 @@ import React from "react";
 import { Switch, Route, useRouteMatch } from "react-router";
 import { SavedPage } from "./SavedPage";
 import { LoginPage } from "./LoginPage";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -50,6 +50,7 @@ export const MainPage = () => {
           </Typography>
           {!isMobile && (
             <Box>
+              <Button className={classes.button} component={Link} to={`${url}`}>Creator</Button>
               <Button className={classes.button} component={Link} to={`${url}/saved`}>Saved</Button>
               <Button className={classes.button} component={Link} to={`${url}/settings`}>Settings</Button>
               <Button className={classes.button} component={Link} to={`${url}/login`}>Log In</Button>
