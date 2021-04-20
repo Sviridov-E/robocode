@@ -62,14 +62,14 @@ export const MainPage = () => {
         <Grid item container xs={12} md={9}>
           <Paper elevation={3} className={classes.paper}>
             <Switch>
-              <Route path={path} exact>
-                <CodeCreatorPage />
-              </Route>
               <Route path={`${path}/saved`}>
                 <SavedPage />
               </Route>
               <Route path={`${path}/login`}>
                 <LoginPage />
+              </Route>
+              <Route path={path}>
+                <CodeCreatorPage />
               </Route>
             </Switch>
           </Paper>

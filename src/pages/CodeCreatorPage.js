@@ -13,12 +13,17 @@ import PhoneIcon from "@material-ui/icons/Phone";
 import LinkIcon from "@material-ui/icons/Link";
 import WifiIcon from "@material-ui/icons/Wifi";
 import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useQrGenerator } from "../reactHooks/useQrGenerator";
-import { DataToEncodeForm } from "../components/DataToEncodeForm";
 import { DownloadCodeButton } from "../components/DownloadCodeButton";
 import { useUserData } from "../reactHooks/useUserData";
 import { ToastContext } from "../context/ToastContext";
+import { Route, Switch, useHistory, useLocation, useRouteMatch } from "react-router";
+import { EncodeText } from "../components/EncodeText";
+import { EncodePhone } from "../components/EncodePhone";
+import { EncodeLink } from "../components/EncodeLink";
+import { EncodeWifi } from "../components/EncodeWifi";
+import { EncodeVCard } from "../components/EncodeVCard";
 
 const useStyles = makeStyles((theme) => ({
   boxContent: {
@@ -46,8 +51,22 @@ export const CodeCreatorPage = () => {
 
   const [encodingData, setEncodingData] = useState("");
 
+  const { path, url } = useRouteMatch();
+  const history = useHistory();
+  const {pathname} = useLocation();
+
   const [typeOfData, setTypeOfData] = useState(0);
   const handleChangeTypeOfData = (e, val) => setTypeOfData(val);
+  useEffect(() => {
+    history.push(`${typeOfData ? url + '/' + typeOfData : url}`)
+  }, [typeOfData, history, url])
+
+  useEffect(() => {
+    const pathArr = pathname.split('/');
+    if(pathArr.length <= 2) return;
+    const formType = pathArr[pathArr.length-1];
+    setTypeOfData(formType);
+  }, [pathname]);
 
   const {
     qr,
@@ -71,7 +90,7 @@ export const CodeCreatorPage = () => {
 
   const saveClickHandler = () => {
     saveCode(encodedContent);
-    openToast({content: 'Code was successfully saved!'})
+    openToast({ content: "Code was successfully saved!" });
   };
 
   return (
@@ -84,6 +103,7 @@ export const CodeCreatorPage = () => {
         centered
       >
         <Tab
+          value={0}
           label={
             <Box className={classes.tabBox}>
               <TextFormatIcon />
@@ -94,6 +114,7 @@ export const CodeCreatorPage = () => {
           }
         />
         <Tab
+          value="phone"
           label={
             <Box className={classes.tabBox}>
               <PhoneIcon />
@@ -104,6 +125,7 @@ export const CodeCreatorPage = () => {
           }
         />
         <Tab
+          value="link"
           label={
             <Box className={classes.tabBox}>
               <LinkIcon />
@@ -114,6 +136,7 @@ export const CodeCreatorPage = () => {
           }
         />
         <Tab
+          value="wifi"
           label={
             <Box className={classes.tabBox}>
               <WifiIcon />
@@ -124,6 +147,7 @@ export const CodeCreatorPage = () => {
           }
         />
         <Tab
+          value="card"
           label={
             <Box className={classes.tabBox}>
               <BusinessCenterIcon />
@@ -136,10 +160,23 @@ export const CodeCreatorPage = () => {
       </Tabs>
       <Box className={classes.boxContent}>
         <form noValidate autoComplete="off" onSubmit={submitHandler}>
-          <DataToEncodeForm
-            type={typeOfData}
-            setEncodingData={setEncodingData}
-          />
+          <Switch>
+            <Route path={path} exact>
+              <EncodeText setEncodingData={setEncodingData} />
+            </Route>
+            <Route path={`${path}/phone`}>
+              <EncodePhone setEncodingData={setEncodingData} />
+            </Route>
+            <Route path={`${path}/link`}>
+              <EncodeLink setEncodingData={setEncodingData} />
+            </Route>
+            <Route path={`${path}/wifi`}>
+              <EncodeWifi setEncodingData={setEncodingData} />
+            </Route>
+            <Route path={`${path}/card`}>
+              <EncodeVCard setEncodingData={setEncodingData} />
+            </Route>
+          </Switch>
           <Box m={2}>
             <Button
               variant="contained"
