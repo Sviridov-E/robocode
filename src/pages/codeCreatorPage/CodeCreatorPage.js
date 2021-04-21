@@ -13,10 +13,9 @@ import PhoneIcon from "@material-ui/icons/Phone";
 import LinkIcon from "@material-ui/icons/Link";
 import WifiIcon from "@material-ui/icons/Wifi";
 import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useQrGenerator } from "../../reactHooks/useQrGenerator";
 import { DownloadCodeButton } from "./DownloadCodeButton";
-import { useUserData } from "../../reactHooks/useUserData";
 import { ToastContext } from "../../context/ToastContext";
 import { Route, Switch, useHistory, useLocation, useRouteMatch } from "react-router";
 import { EncodeText } from "./EncodeText";
@@ -24,6 +23,8 @@ import { EncodePhone } from "./EncodePhone";
 import { EncodeLink } from "./EncodeLink";
 import { EncodeWifi } from "./EncodeWifi";
 import { EncodeVCard } from "./EncodeVCard";
+import { useDispatch, useSelector } from "react-redux";
+import { saveCode as saveCodeAction, selectCodesLength } from "../../redux/slices/savedCodesSlice";
 
 const useStyles = makeStyles((theme) => ({
   boxContent: {
@@ -55,6 +56,9 @@ export const CodeCreatorPage = () => {
   const history = useHistory();
   const {pathname} = useLocation();
 
+  const dispatch = useDispatch();
+  const codesLength = useSelector(selectCodesLength)
+
   const [typeOfData, setTypeOfData] = useState(0);
   const handleChangeTypeOfData = (e, val) => setTypeOfData(val);
   useEffect(() => {
@@ -79,7 +83,9 @@ export const CodeCreatorPage = () => {
   } = useQrGenerator();
   const savers = [downloadPNG, downloadJPG, downloadSVG, downloadWEBP];
 
-  const { saveCode } = useUserData();
+  const saveCode = useCallback((values, name = "My code " + (1 + Object.keys(codesLength).length)) => {
+    dispatch(saveCodeAction({values, name}))
+  }, [codesLength, dispatch])
 
   const { openToast } = useContext(ToastContext);
 
@@ -89,7 +95,7 @@ export const CodeCreatorPage = () => {
   };
 
   const saveClickHandler = () => {
-    saveCode(encodedContent);
+    saveCode(encodedContent)
     openToast({ content: "Code was successfully saved!" });
   };
 

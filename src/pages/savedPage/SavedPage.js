@@ -1,6 +1,8 @@
 import { Grid, makeStyles, Typography } from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useQrGenerator } from "../../reactHooks/useQrGenerator";
+import { selectSavedCodes } from "../../redux/slices/savedCodesSlice";
 import { CodeCard } from "./CodeCard";
 
 const useStyles = makeStyles({
@@ -13,9 +15,8 @@ export const SavedPage = () => {
   const [codes, setCodes] = useState([]);
 
   const { createQr, downloadPNG } = useQrGenerator();
-
+  const rawCodes = useSelector(selectSavedCodes);
   const toFormCodes = useCallback(async () => {
-    const rawCodes = JSON.parse(window.localStorage.getItem("savedCodes"));
     let code = [];
     for (const [name, value] of Object.entries(rawCodes)) {
       const url = await createQr(value, { margin: 0, scale: 12 });
@@ -26,7 +27,7 @@ export const SavedPage = () => {
       });
     }
     setCodes(code);
-  }, [setCodes, createQr]);
+  }, [setCodes, createQr, rawCodes]);
 
   useEffect(() => {
     toFormCodes();
