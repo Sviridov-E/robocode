@@ -9,11 +9,11 @@ import {
   useMediaQuery,
   Grid,
 } from "@material-ui/core";
-import { CodeCreatorPage } from "./CodeCreatorPage";
+import { CodeCreatorPage } from "./codeCreatorPage/CodeCreatorPage";
 import { grey } from "@material-ui/core/colors";
 import React from "react";
 import { Switch, Route, useRouteMatch } from "react-router";
-import { SavedPage } from "./SavedPage";
+import { SavedPage } from "./savedPage/SavedPage";
 import { LoginPage } from "./LoginPage";
 import { Link } from "react-router-dom";
 

@@ -14,16 +14,16 @@ import LinkIcon from "@material-ui/icons/Link";
 import WifiIcon from "@material-ui/icons/Wifi";
 import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
 import React, { useContext, useEffect, useState } from "react";
-import { useQrGenerator } from "../reactHooks/useQrGenerator";
-import { DownloadCodeButton } from "../components/DownloadCodeButton";
-import { useUserData } from "../reactHooks/useUserData";
-import { ToastContext } from "../context/ToastContext";
+import { useQrGenerator } from "../../reactHooks/useQrGenerator";
+import { DownloadCodeButton } from "./DownloadCodeButton";
+import { useUserData } from "../../reactHooks/useUserData";
+import { ToastContext } from "../../context/ToastContext";
 import { Route, Switch, useHistory, useLocation, useRouteMatch } from "react-router";
-import { EncodeText } from "../components/EncodeText";
-import { EncodePhone } from "../components/EncodePhone";
-import { EncodeLink } from "../components/EncodeLink";
-import { EncodeWifi } from "../components/EncodeWifi";
-import { EncodeVCard } from "../components/EncodeVCard";
+import { EncodeText } from "./EncodeText";
+import { EncodePhone } from "./EncodePhone";
+import { EncodeLink } from "./EncodeLink";
+import { EncodeWifi } from "./EncodeWifi";
+import { EncodeVCard } from "./EncodeVCard";
 
 const useStyles = makeStyles((theme) => ({
   boxContent: {

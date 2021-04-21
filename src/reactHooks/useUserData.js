@@ -3,20 +3,20 @@ import { useState, useEffect, useCallback } from "react";
 export const useUserData = () => {
   const [savedCodes, setSavedCodes] = useState({});
 
+  const codeKeyName = "savedCodes";
   // Get data from localStorage
   useEffect(() => {
-    const codes = JSON.parse(window.localStorage.getItem("savedCodes"));
+    const codes = JSON.parse(window.localStorage.getItem(codeKeyName));
     setSavedCodes(codes);
   }, [setSavedCodes]);
 
   // Update localStorage when saved codes is changing
   useEffect(() => {
-    window.localStorage.setItem("savedCodes", JSON.stringify(savedCodes));
+    window.localStorage.setItem(codeKeyName, JSON.stringify(savedCodes));
   }, [savedCodes]);
 
   const saveCode = useCallback(
     (content, name = "My code " + (1 + Object.keys(savedCodes).length)) => {
-      console.log(`name: ${name}, content: ${content}`);
       setSavedCodes((codes) => ({ ...codes, [name]: content }));
     },
     [savedCodes]
@@ -31,5 +31,9 @@ export const useUserData = () => {
     });
   }, []);
 
-  return { saveCode, removeCode };
+  const getCodes = useCallback(() => {
+    return JSON.parse(window.localStorage.getItem(codeKeyName));
+  }, []);
+
+  return { saveCode, removeCode, getCodes };
 };
