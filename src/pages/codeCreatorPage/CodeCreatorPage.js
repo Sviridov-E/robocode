@@ -71,13 +71,13 @@ export const CodeCreatorPage = () => {
   const {
     qr,
     createQr,
-    saveSVG,
-    savePNG,
-    saveJPG,
-    saveWEBP,
+    downloadSVG,
+    downloadPNG,
+    downloadJPG,
+    downloadWEBP,
     encodedContent,
   } = useQrGenerator();
-  const savers = [savePNG, saveJPG, saveSVG, saveWEBP];
+  const savers = [downloadPNG, downloadJPG, downloadSVG, downloadWEBP];
 
   const { saveCode } = useUserData();
 

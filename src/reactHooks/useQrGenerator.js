@@ -27,9 +27,9 @@ export const useQrGenerator = () => {
     },
     [setBase, defaultOptions]
   );
-  
-  const saveImage = useCallback(({blob, type}) => {
-    if(!blob) return;
+
+  const downloadImage = useCallback(({ blob, type }) => {
+    if (!blob) return;
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = "robocode." + type;
@@ -37,36 +37,59 @@ export const useQrGenerator = () => {
     URL.revokeObjectURL(a.href);
   }, []);
 
-  const saveSVG = useCallback(
-    async () => {
+  const downloadSVG = useCallback(
+    async (raw) => {
       if (!base.raw) return;
-      const svg = await QRCode.toString(base.raw, defaultOptions);
+      const svg = await QRCode.toString(raw || base.raw, defaultOptions);
       const blob = new Blob([svg], { type: "image/svg+xml" });
-      saveImage({blob, type: 'svg'});
+      downloadImage({ blob, type: "svg" });
     },
-    [base, defaultOptions, saveImage]
+    [base, defaultOptions, downloadImage]
   );
-  
-  const savePNG = useCallback(() => {
-    if(!base.png) return;
-    const a = document.createElement("a");
-    a.href = base.png;
-    a.download = "robocode.png";
-    a.click();
 
-  }, [base]);
+  const downloadPNG = useCallback(
+    async (raw, options) => {
+      const a = document.createElement("a");
+      if (raw) {
+        a.href = await createQr(raw, options || defaultOptions);
+      } else {
+        a.href = base.png;
+      }
+      a.download = "robocode.png";
+      a.click();
+    },
+    [base, createQr, defaultOptions]
+  );
 
-  const saveJPG = useCallback(async () => {
-    const canvas = await QRCode.toCanvas(base.raw, defaultOptions);
-    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
-    saveImage({blob, type: 'jpg'});
-  }, [base, defaultOptions, saveImage]);
+  const downloadJPG = useCallback(
+    async (raw) => {
+      const canvas = await QRCode.toCanvas(raw || base.raw, defaultOptions);
+      const blob = await new Promise((resolve) =>
+        canvas.toBlob(resolve, "image/jpeg")
+      );
+      downloadImage({ blob, type: "jpg" });
+    },
+    [base, defaultOptions, downloadImage]
+  );
 
-  const saveWEBP = useCallback(async () => {
-    const canvas = await QRCode.toCanvas(base.raw, defaultOptions);
-    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/webp'));
-    saveImage({blob, type: 'webp'});
-  }, [base, defaultOptions, saveImage]);
+  const downloadWEBP = useCallback(
+    async (raw) => {
+      const canvas = await QRCode.toCanvas(raw || base.raw, defaultOptions);
+      const blob = await new Promise((resolve) =>
+        canvas.toBlob(resolve, "image/webp")
+      );
+      downloadImage({ blob, type: "webp" });
+    },
+    [base, defaultOptions, downloadImage]
+  );
 
-  return { createQr, qr, saveSVG, savePNG, saveJPG, saveWEBP, saveImage, encodedContent: base.raw };
+  return {
+    createQr,
+    qr,
+    downloadSVG,
+    downloadPNG,
+    downloadJPG,
+    downloadWEBP,
+    encodedContent: base.raw,
+  };
 };

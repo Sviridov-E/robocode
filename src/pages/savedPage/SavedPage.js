@@ -12,7 +12,7 @@ const useStyles = makeStyles({
 export const SavedPage = () => {
   const [codes, setCodes] = useState([]);
 
-  const { createQr } = useQrGenerator();
+  const { createQr, downloadPNG } = useQrGenerator();
 
   const toFormCodes = useCallback(async () => {
     const rawCodes = JSON.parse(window.localStorage.getItem("savedCodes"));
@@ -42,7 +42,12 @@ export const SavedPage = () => {
       <Grid container item spacing={2}>
         {codes.map(({ url, name, value }) => (
           <Grid xs={12} md={6} lg={3} item key={name}>
-            <CodeCard imageUrl={url} title={name} description={value} />
+            <CodeCard
+              imageUrl={url}
+              title={name}
+              description={value}
+              downloadHandler={(value) => downloadPNG(value, { margin: 1, scale: 12 })}
+            />
           </Grid>
         ))}
       </Grid>

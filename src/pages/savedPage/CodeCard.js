@@ -29,7 +29,8 @@ const useStyles = makeStyles({
 export const CodeCard = ({
     imageUrl,
     title,
-    description
+    description,
+    downloadHandler
 }) => {
   const classes = useStyles();
 
@@ -51,7 +52,7 @@ export const CodeCard = ({
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={() => downloadHandler(description)}>
           Download
         </Button>
         <Button size="small" color="primary">
@@ -65,5 +66,6 @@ export const CodeCard = ({
 CodeCard.propTypes = {
   imageUrl: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  description: PropTypes.string
+  description: PropTypes.string,
+  downloadHandler: PropTypes.func.isRequired
 }
