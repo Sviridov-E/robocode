@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles({
   root: {
@@ -60,3 +61,9 @@ export const CodeCard = ({
     </Card>
   );
 };
+
+CodeCard.propTypes = {
+  imageUrl: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string
+}

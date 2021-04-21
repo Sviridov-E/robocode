@@ -5,9 +5,9 @@ import { CodeCard } from "./CodeCard";
 
 const useStyles = makeStyles({
   root: {
-    padding: 10
-  }
-})
+    padding: 10,
+  },
+});
 
 export const SavedPage = () => {
   const [codes, setCodes] = useState([]);
@@ -18,7 +18,7 @@ export const SavedPage = () => {
     const rawCodes = JSON.parse(window.localStorage.getItem("savedCodes"));
     let code = [];
     for (const [name, value] of Object.entries(rawCodes)) {
-      const url = await createQr(value, {margin: 0, scale: 12});
+      const url = await createQr(value, { margin: 0, scale: 12 });
       code.push({
         name,
         value,
@@ -40,14 +40,9 @@ export const SavedPage = () => {
         <Typography variant="h4">Saved codes</Typography>
       </Grid>
       <Grid container item spacing={2}>
-        {codes.map(({ url, name, value }, ind) => (
-          <Grid xs="12" md="6" lg="3" item>
-            <CodeCard
-              imageUrl={url}
-              title={name}
-              description={value}
-              key={ind}
-            />
+        {codes.map(({ url, name, value }) => (
+          <Grid xs={12} md={6} lg={3} item key={name}>
+            <CodeCard imageUrl={url} title={name} description={value} />
           </Grid>
         ))}
       </Grid>
