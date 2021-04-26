@@ -19,10 +19,13 @@ export const SavedPage = () => {
   const toFormCodes = useCallback(async () => {
     let code = [];
     for (const [name, value] of Object.entries(rawCodes)) {
-      const url = await createQr(value, { margin: 0, scale: 12 });
+      const url = await createQr(value.string, { margin: 0, scale: 12 });
       code.push({
         name,
-        value,
+        string: value.string,
+        date: value.date,
+        values: value.values,
+        type: value.type,
         url,
       });
     }
@@ -41,12 +44,15 @@ export const SavedPage = () => {
         <Typography variant="h4">Saved codes</Typography>
       </Grid>
       <Grid container item spacing={2}>
-        {codes.map(({ url, name, value }) => (
+        {codes.map(({ url, name, string, type, date, values }) => (
           <Grid xs={12} md={6} lg={3} item key={name}>
             <CodeCard
               imageUrl={url}
               title={name}
-              description={value}
+              description={string}
+              type={type}
+              date={date}
+              values={values}
               downloadHandler={(value) => downloadPNG(value, { margin: 1, scale: 12 })}
             />
           </Grid>

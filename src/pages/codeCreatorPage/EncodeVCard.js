@@ -1,5 +1,6 @@
 import { Grid, TextField } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import { serializeVCard } from "../../lib/serializers";
 
 export const EncodeVCard = ({ setEncodingData }) => {
   const [state, setState] = useState({
@@ -21,18 +22,10 @@ export const EncodeVCard = ({ setEncodingData }) => {
   };
 
   useEffect(() => {
-    let { firstname, lastname, org, title, tel, url, email } = state;
-
-    let name = lastname ? `N:${lastname};${firstname}\n` : `FN:${firstname}\n`;
-    org = org ? `ORG: ${org}\n` : "";
-    title = title ? `TITLE: ${title}\n` : "";
-    tel = tel ? `TEL: ${tel}\n` : "";
-    url = url ? `URL: ${url}\n` : "";
-    email = email ? `EMAIL: ${email}\n` : "";
-
-    setEncodingData(
-      "BEGIN:VCARD\n" + name + org + title + tel + url + email + "END:VCARD;"
-    );
+    setEncodingData({
+      values: state,
+      string: serializeVCard(state)
+    });
   }, [state, setEncodingData]);
 
   return (

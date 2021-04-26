@@ -9,6 +9,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import { serializeWifi } from "../../lib/serializers";
 
 export const EncodeWifi = ({ setEncodingData }) => {
   const [state, setState] = useState({
@@ -28,8 +29,10 @@ export const EncodeWifi = ({ setEncodingData }) => {
   };
 
   useEffect(() => {
-    setEncodingData(
-      `WIFI:S:${state.ssid};T:${state.encryption};P:${state.password};H:${state.hidden};`
+    setEncodingData({
+      values: state,
+      string: serializeWifi(state)
+    }
     );
   }, [state, setEncodingData]);
 

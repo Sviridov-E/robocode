@@ -1,5 +1,6 @@
 import { TextField } from "@material-ui/core";
 import React, { useState } from "react";
+import { serializeLink } from "../../lib/serializers";
 
 export const EncodeLink = ({ setEncodingData }) => {
   const [state, setState] = useState("");
@@ -7,7 +8,10 @@ export const EncodeLink = ({ setEncodingData }) => {
   const changeDataToEncode = (e) => {
     const value = e.target.value;
     setState(value);
-    setEncodingData("https://" + value);
+    setEncodingData({
+      string: serializeLink({link: state}),
+      values: state,
+    });
   };
 
   return (

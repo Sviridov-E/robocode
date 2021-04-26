@@ -17,14 +17,23 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useQrGenerator } from "../../reactHooks/useQrGenerator";
 import { DownloadCodeButton } from "./DownloadCodeButton";
 import { ToastContext } from "../../context/ToastContext";
-import { Route, Switch, useHistory, useLocation, useRouteMatch } from "react-router";
+import {
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+  useRouteMatch,
+} from "react-router";
 import { EncodeText } from "./EncodeText";
 import { EncodePhone } from "./EncodePhone";
 import { EncodeLink } from "./EncodeLink";
 import { EncodeWifi } from "./EncodeWifi";
 import { EncodeVCard } from "./EncodeVCard";
 import { useDispatch, useSelector } from "react-redux";
-import { saveCode as saveCodeAction, selectCodesLength } from "../../redux/slices/savedCodesSlice";
+import {
+  saveCode as saveCodeAction,
+  selectCodesLength
+} from "../../redux/slices/savedCodesSlice";
 
 const useStyles = makeStyles((theme) => ({
   boxContent: {
@@ -54,21 +63,21 @@ export const CodeCreatorPage = () => {
 
   const { path, url } = useRouteMatch();
   const history = useHistory();
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
 
   const dispatch = useDispatch();
-  const codesLength = useSelector(selectCodesLength)
+  const codesLength = useSelector(selectCodesLength);
 
   const [typeOfData, setTypeOfData] = useState(0);
   const handleChangeTypeOfData = (e, val) => setTypeOfData(val);
   useEffect(() => {
-    history.push(`${typeOfData ? url + '/' + typeOfData : url}`)
-  }, [typeOfData, history, url])
+    history.push(`${typeOfData ? url + "/" + typeOfData : url}`);
+  }, [typeOfData, history, url]);
 
   useEffect(() => {
-    const pathArr = pathname.split('/');
-    if(pathArr.length <= 2) return;
-    const formType = pathArr[pathArr.length-1];
+    const pathArr = pathname.split("/");
+    if (pathArr.length <= 2) return;
+    const formType = pathArr[pathArr.length - 1];
     setTypeOfData(formType);
   }, [pathname]);
 
@@ -79,23 +88,26 @@ export const CodeCreatorPage = () => {
     downloadPNG,
     downloadJPG,
     downloadWEBP,
-    encodedContent,
+    encodedContent, // String with encoded data when qr code is rendered, even if input will cleared
   } = useQrGenerator();
   const savers = [downloadPNG, downloadJPG, downloadSVG, downloadWEBP];
 
-  const saveCode = useCallback((values, name = "My code " + (1 + Object.keys(codesLength).length)) => {
-    dispatch(saveCodeAction({values, name}))
-  }, [codesLength, dispatch])
+  const saveCode = useCallback(
+    (values, name = "My code " + (1 + codesLength)) => {
+      dispatch(saveCodeAction({ values, name }));
+    },
+    [codesLength, dispatch]
+  );
 
   const { openToast } = useContext(ToastContext);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    createQr(encodingData);
+    createQr(encodingData.string);
   };
 
   const saveClickHandler = () => {
-    saveCode(encodedContent)
+    saveCode({ ...encodingData, type: typeOfData || "text", date: new Date().toLocaleDateString()});
     openToast({ content: "Code was successfully saved!" });
   };
 

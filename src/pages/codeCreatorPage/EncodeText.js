@@ -7,7 +7,7 @@ export const EncodeText = ({ setEncodingData }) => {
   const changeDataToEncode = (e) => {
     const value = e.target.value;
     setState(value);
-    setEncodingData(value);
+    setEncodingData({string: value, values: value});
   };
 
   return (

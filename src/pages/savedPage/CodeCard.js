@@ -30,7 +30,8 @@ export const CodeCard = ({
     imageUrl,
     title,
     description,
-    downloadHandler
+    downloadHandler,
+    type
 }) => {
   const classes = useStyles();
 
@@ -47,7 +48,7 @@ export const CodeCard = ({
             {title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {description}
+            {`Type: ${type}`}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -62,10 +63,16 @@ export const CodeCard = ({
     </Card>
   );
 };
-
+/* 
+  1. Определяем какой тип кода хотим изменить.
+  2. Необходимо разнести данные по соответствующим полям кода
+  3. Перенаправляем клиента на страницу для создания кода
+  4. Заполняем автоматически все поля и позволяем изменить
+*/
 CodeCard.propTypes = {
   imageUrl: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
+  type: PropTypes.string,
   downloadHandler: PropTypes.func.isRequired
 }
