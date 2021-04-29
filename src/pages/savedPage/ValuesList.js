@@ -9,6 +9,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
+import PropTypes from 'prop-types';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,3 +65,7 @@ export const ValuesList = ({ content }) => {
     </TableContainer>
   );
 };
+
+ValuesList.propTypes = {
+    description: PropTypes.oneOfType([PropTypes.object, PropTypes.string])
+}

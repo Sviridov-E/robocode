@@ -61,7 +61,7 @@ export const SavedPage = () => {
             <CodeCard
               imageUrl={url}
               title={name}
-              description={string}
+              string={string}
               type={type}
               date={date}
               values={values}

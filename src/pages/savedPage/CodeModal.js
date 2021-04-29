@@ -9,6 +9,7 @@ import {
 import React, { useCallback, useEffect, useState } from "react";
 import { useQrGenerator } from "../../reactHooks/useQrGenerator";
 import { ValuesList } from "./ValuesList";
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -45,7 +46,8 @@ export const CodeModal = ({
   description,
   onClose,
   open,
-  date, type
+  date,
+  type
 }) => {
 
   const [codeUrl, setCodeUrl] = useState("");
@@ -91,3 +93,13 @@ export const CodeModal = ({
     </Modal>
   );
 };
+
+CodeModal.propTypes = {
+  dataToCode: PropTypes.string,
+  title: PropTypes.string,
+  description: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  onClose: PropTypes.func,
+  open: PropTypes.bool,
+  date: PropTypes.string,
+  type: PropTypes.string
+}
