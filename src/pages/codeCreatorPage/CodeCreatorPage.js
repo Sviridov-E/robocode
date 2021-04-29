@@ -70,9 +70,10 @@ export const CodeCreatorPage = () => {
 
   const [typeOfData, setTypeOfData] = useState(0);
   const handleChangeTypeOfData = (e, val) => setTypeOfData(val);
+  const location = useLocation();
   useEffect(() => {
-    history.push(`${typeOfData ? url + "/" + typeOfData : url}`);
-  }, [typeOfData, history, url]);
+    history.push(`${typeOfData ? url + "/" + typeOfData : url}${location.search}`);
+  }, [typeOfData, history, url, location.search]);
 
   useEffect(() => {
     const pathArr = pathname.split("/");

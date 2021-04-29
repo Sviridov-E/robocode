@@ -1,6 +1,7 @@
 import { Grid, makeStyles, Typography } from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import { useQrGenerator } from "../../reactHooks/useQrGenerator";
 import { selectSavedCodes } from "../../redux/slices/savedCodesSlice";
 import { CodeCard } from "./CodeCard";
@@ -13,7 +14,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const SavedPage = () => {
-  const [codes, setCodes] = useState([]);
+
+  /* ************************************************************** */
   const [modalOpen, setModalOpen] = useState({
     isOpen: false,
     content: {}, // type, dataToCode, title, description
@@ -25,7 +27,18 @@ export const SavedPage = () => {
     }));
   };
   const closeModal = () => setModalOpen({isOpen: false, content: {}});
+  /* ************************************************************** */
 
+  /* ************************************************************** */
+  const history = useHistory();
+  const editHandler = useCallback((type, name) => {
+    type = type === 'text' ? '' : '/' + type;
+    history.push(`/main${type}?code=${name}`);
+  }, [history])
+  /* ************************************************************** */
+
+  /* ************************************************************** */
+  const [codes, setCodes] = useState([]);
   const { createQr, downloadPNG } = useQrGenerator();
   const rawCodes = useSelector(selectSavedCodes);
   const toFormCodes = useCallback(async () => {
@@ -47,6 +60,7 @@ export const SavedPage = () => {
   useEffect(() => {
     toFormCodes();
   }, [toFormCodes]);
+  /* ************************************************************** */
 
   const classes = useStyles();
 
@@ -66,6 +80,7 @@ export const SavedPage = () => {
               date={date}
               values={values}
               openModal={() => openModal({title: name, dataToCode: string, description: values, type, date})}
+              editHandler={() => editHandler(type, name)}
               downloadHandler={(value) =>
                 downloadPNG(value, { margin: 1, scale: 12 })
               }

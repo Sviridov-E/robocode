@@ -1,6 +1,9 @@
 import { Grid, TextField } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { serializeVCard } from "../../lib/serializers";
+import useQuery from "../../reactHooks/useQuery";
+import { selectSavedCodes } from "../../redux/slices/savedCodesSlice";
 
 export const EncodeVCard = ({ setEncodingData }) => {
   const [state, setState] = useState({
@@ -12,6 +15,19 @@ export const EncodeVCard = ({ setEncodingData }) => {
     url: "",
     email: "",
   });
+
+  const query = useQuery();
+  const savedCodes = useSelector(selectSavedCodes)
+  const codeName = query.get('code');
+
+  const fillFieldsFromStore = useCallback(() => {
+    setState(state => ({...state, ...savedCodes[codeName].values}));
+  }, [setState, savedCodes, codeName])
+
+  useEffect(() => {
+    if(!codeName) return;
+    fillFieldsFromStore();
+  }, [fillFieldsFromStore, codeName])
 
   const changeDataToEncode = (e) => {
     const value = e.target.value;

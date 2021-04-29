@@ -32,7 +32,8 @@ export const CodeCard = ({
     string,
     downloadHandler,
     type,
-    openModal
+    openModal,
+    editHandler
 }) => {
   const classes = useStyles();
 
@@ -57,7 +58,7 @@ export const CodeCard = ({
         <Button size="small" color="primary" onClick={() => downloadHandler(string)}>
           Download
         </Button>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={editHandler}>
           Edit
         </Button>
       </CardActions>
@@ -76,5 +77,6 @@ CodeCard.propTypes = {
   string: PropTypes.string,
   type: PropTypes.string,
   downloadHandler: PropTypes.func.isRequired,
+  editHandler: PropTypes.func,
   openModal: PropTypes.func
 }

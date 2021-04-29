@@ -8,8 +8,11 @@ import {
   Select,
   TextField,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { serializeWifi } from "../../lib/serializers";
+import { useSelector } from "react-redux";
+import useQuery from "../../reactHooks/useQuery";
+import { selectSavedCodes } from "../../redux/slices/savedCodesSlice";
 
 export const EncodeWifi = ({ setEncodingData }) => {
   const [state, setState] = useState({
@@ -18,6 +21,19 @@ export const EncodeWifi = ({ setEncodingData }) => {
     encryption: "WPA",
     hidden: false,
   });
+
+  const query = useQuery();
+  const savedCodes = useSelector(selectSavedCodes)
+  const codeName = query.get('code');
+
+  const fillFieldsFromStore = useCallback(() => {
+    setState(state => ({...state, ...savedCodes[codeName].values}));
+  }, [setState, savedCodes, codeName])
+
+  useEffect(() => {
+    if(!codeName) return;
+    fillFieldsFromStore();
+  }, [fillFieldsFromStore, codeName])
 
   const changeDataToEncode = (e) => {
     const value =
