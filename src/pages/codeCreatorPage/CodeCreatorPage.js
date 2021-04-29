@@ -32,8 +32,10 @@ import { EncodeVCard } from "./EncodeVCard";
 import { useDispatch, useSelector } from "react-redux";
 import {
   saveCode as saveCodeAction,
-  selectCodesLength
+  selectCodesLength,
+  selectSavedCodes
 } from "../../redux/slices/savedCodesSlice";
+import { ModalForm } from "./ModalForm";
 
 const useStyles = makeStyles((theme) => ({
   boxContent: {
@@ -59,6 +61,10 @@ const useStyles = makeStyles((theme) => ({
 export const CodeCreatorPage = () => {
   const classes = useStyles();
 
+  /* ************************************************ */
+  const { openToast } = useContext(ToastContext);
+  /* ************************************************ */
+
   const [encodingData, setEncodingData] = useState("");
 
   const { path, url } = useRouteMatch();
@@ -67,6 +73,7 @@ export const CodeCreatorPage = () => {
 
   const dispatch = useDispatch();
   const codesLength = useSelector(selectCodesLength);
+  const savedCodes = useSelector(selectSavedCodes);
 
   const [typeOfData, setTypeOfData] = useState(0);
   const handleChangeTypeOfData = (e, val) => setTypeOfData(val);
@@ -100,17 +107,41 @@ export const CodeCreatorPage = () => {
     [codesLength, dispatch]
   );
 
-  const { openToast } = useContext(ToastContext);
-
   const submitHandler = (e) => {
     e.preventDefault();
     createQr(encodingData.string);
   };
 
   const saveClickHandler = () => {
-    saveCode({ ...encodingData, type: typeOfData || "text", date: new Date().toLocaleDateString()});
-    openToast({ content: "Code was successfully saved!" });
+    codeNameFormOpen();
   };
+
+  /* ********Entering name for saving code*********** */
+  const [codeNameForm, setCodeNameForm] = useState({
+    isOpen: false,
+    name: "My code "
+  });
+  const codeNameFormClose = () => {
+    setCodeNameForm({
+      isOpen: false,
+      name: "My code "
+    })
+  }
+  const codeNameFormOpen = () => {
+    setCodeNameForm({
+      isOpen: true,
+      name: "My code " + (1 + codesLength)
+    })
+  }
+  const codeNameFormSubmit = useCallback(() => {
+    if(Object.keys(savedCodes).includes(codeNameForm.name)) {
+      return openToast({content: "This name is already taken!", type: 'error'});
+    }
+    saveCode({ ...encodingData, type: typeOfData || "text", date: new Date().toLocaleDateString()}, codeNameForm.name);
+    openToast({ content: "Code was successfully saved!" });
+    codeNameFormClose();
+  }, [savedCodes, codeNameForm.name, encodingData, openToast, saveCode, typeOfData])
+  /* ************************************************ */
 
   return (
     <>
@@ -231,6 +262,15 @@ export const CodeCreatorPage = () => {
           </Grid>
         </Grid>
       </Box>
+      <ModalForm
+        title="Name"
+        description={"Enter the name of code"}
+        onSubmit={codeNameFormSubmit}
+        handleClose={codeNameFormClose}
+        text={codeNameForm.name}
+        setText={(e) => setCodeNameForm(state => ({...state, name: e.target.value}))}
+        open={codeNameForm.isOpen}
+      />
     </>
   );
 };
