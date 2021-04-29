@@ -88,7 +88,7 @@ export const CodeCreatorPage = () => {
     downloadPNG,
     downloadJPG,
     downloadWEBP,
-    encodedContent, // String with encoded data when qr code is rendered, even if input will cleared
+    //encodedContent, // String with encoded data when qr code is rendered, even if input will cleared
   } = useQrGenerator();
   const savers = [downloadPNG, downloadJPG, downloadSVG, downloadWEBP];
 

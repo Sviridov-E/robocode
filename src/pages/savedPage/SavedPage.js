@@ -4,15 +4,27 @@ import { useSelector } from "react-redux";
 import { useQrGenerator } from "../../reactHooks/useQrGenerator";
 import { selectSavedCodes } from "../../redux/slices/savedCodesSlice";
 import { CodeCard } from "./CodeCard";
+import { CodeModal } from "./CodeModal";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     padding: 10,
   },
-});
+}));
 
 export const SavedPage = () => {
   const [codes, setCodes] = useState([]);
+  const [modalOpen, setModalOpen] = useState({
+    isOpen: false,
+    content: {}, // type, dataToCode, title, description
+  });
+  const openModal = (content) => {
+    setModalOpen((state) => ({
+      content: content || state.content,
+      isOpen: true,
+    }));
+  };
+  const closeModal = () => setModalOpen({isOpen: false, content: {}});
 
   const { createQr, downloadPNG } = useQrGenerator();
   const rawCodes = useSelector(selectSavedCodes);
@@ -53,11 +65,23 @@ export const SavedPage = () => {
               type={type}
               date={date}
               values={values}
-              downloadHandler={(value) => downloadPNG(value, { margin: 1, scale: 12 })}
+              openModal={() => openModal({title: name, dataToCode: string, description: values, type, date})}
+              downloadHandler={(value) =>
+                downloadPNG(value, { margin: 1, scale: 12 })
+              }
             />
           </Grid>
         ))}
       </Grid>
+      <CodeModal
+        open={modalOpen.isOpen}
+        title={modalOpen.content.title}
+        description={modalOpen.content.description}
+        dataToCode={modalOpen.content.dataToCode}
+        date={modalOpen.content.date}
+        type={modalOpen.content.type}
+        onClose={closeModal}
+      />
     </Grid>
   );
 };

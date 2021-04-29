@@ -31,13 +31,14 @@ export const CodeCard = ({
     title,
     description,
     downloadHandler,
-    type
+    type,
+    openModal
 }) => {
   const classes = useStyles();
 
   return (
     <Card className={classes.root} elevation={4}>
-      <CardActionArea>
+      <CardActionArea onClick={openModal}>
         <CardMedia
           className={classes.media}
           image={imageUrl}
