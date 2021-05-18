@@ -47,7 +47,6 @@ export const ValuesList = ({ content }) => {
         <TableBody>
           {Object.entries(contentObj).map(([key, value]) => {
             if (!value) return null;
-            console.log(`${key}: ${value}`)
             return (
               <TableRow key={key}>
                 <TableCell className={classes.firstColumn} align="right">
