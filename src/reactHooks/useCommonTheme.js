@@ -1,5 +1,5 @@
 import { createMuiTheme } from '@material-ui/core';
-import { green } from '@material-ui/core/colors';
+import { green, red } from '@material-ui/core/colors';
 import { useMemo } from 'react';
 
 export const useCommonTheme = () => {
@@ -8,6 +8,9 @@ export const useCommonTheme = () => {
             palette: {
                 primary: {
                     main: green[500]
+                },
+                secondary: {
+                    main: red[700]
                 }
             }
         })

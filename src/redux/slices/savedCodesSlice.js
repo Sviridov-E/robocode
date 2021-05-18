@@ -13,6 +13,9 @@ export const savedCodesSlice = createSlice({
     removeCode(state, action) {
       delete state[action.payload.name];
     },
+    removeAllCodes() {
+      return {}
+    }
   },
 });
 
@@ -29,6 +32,13 @@ export const removeCode = (payload) => (dispatch, getState) => {
   window.localStorage.setItem(
     "savedCodes",
     JSON.stringify(getState().savedCodes)
+  );
+};
+
+export const removeAllCodes = () => (dispatch) => {
+  dispatch(savedCodesSlice.actions.removeAllCodes());
+  window.localStorage.removeItem(
+    "savedCodes"
   );
 };
 

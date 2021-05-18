@@ -1,24 +1,34 @@
-import { Grid, makeStyles, Typography } from "@material-ui/core";
+import { Button, Grid, makeStyles, Typography } from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { useQrGenerator } from "../../reactHooks/useQrGenerator";
 import { selectSavedCodes } from "../../redux/slices/savedCodesSlice";
 import { CodeCard } from "./CodeCard";
 import { CodeModal } from "./CodeModal";
+import { DeleteCodesDialog } from "./DeleteCodesDialog";
+import { removeAllCodes as removeAllCodesAction } from "../../redux/slices/savedCodesSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: 10,
+    padding: "10px 10px 70px",
+    position: "relative",
   },
   divider: {
     marginTop: 10,
-    marginBottom: 10
-  }
+    marginBottom: 10,
+  },
+  removeBtn: {
+    position: "absolute",
+    bottom: "20px",
+    right: "20px",
+    "&:hover": {
+      backgroundColor: theme.palette.error.dark,
+    },
+  },
 }));
 
 export const SavedPage = () => {
-
   /* ************************************************************** */
   const [modalOpen, setModalOpen] = useState({
     isOpen: false,
@@ -30,21 +40,27 @@ export const SavedPage = () => {
       isOpen: true,
     }));
   };
-  const closeModal = () => setModalOpen({isOpen: false, content: {}});
+  const closeModal = () => setModalOpen({ isOpen: false, content: {} });
   /* ************************************************************** */
+
+  const [deleteDialogIsOpen, setDeleteDialogIsOpen] = useState(false);
 
   /* ************************************************************** */
   const history = useHistory();
-  const editHandler = useCallback((type, name) => {
-    type = type === 'text' ? '' : '/' + type;
-    history.push(`/main${type}?code=${name}`);
-  }, [history])
+  const editHandler = useCallback(
+    (type, name) => {
+      type = type === "text" ? "" : "/" + type;
+      history.push(`/main${type}?code=${name}`);
+    },
+    [history]
+  );
   /* ************************************************************** */
 
   /* ************************************************************** */
   const [codes, setCodes] = useState([]);
   const { createQr, downloadPNG } = useQrGenerator();
   const rawCodes = useSelector(selectSavedCodes);
+  const dispatch = useDispatch();
   const toFormCodes = useCallback(async () => {
     let code = [];
     for (const [name, value] of Object.entries(rawCodes)) {
@@ -61,6 +77,10 @@ export const SavedPage = () => {
     setCodes(code);
   }, [setCodes, createQr, rawCodes]);
 
+  const removeAllCodes = useCallback(() => {
+    dispatch(removeAllCodesAction());
+  }, [dispatch]);
+
   useEffect(() => {
     toFormCodes();
   }, [toFormCodes]);
@@ -71,7 +91,9 @@ export const SavedPage = () => {
   return (
     <Grid className={classes.root} spacing={2} container>
       <Grid container item justify="center">
-        <Typography variant="h4" color="primary">Saved codes</Typography>
+        <Typography variant="h4" color="primary">
+          Saved codes
+        </Typography>
       </Grid>
       <Grid container item spacing={2}>
         {codes.map(({ url, name, string, type, date, values }) => (
@@ -83,7 +105,15 @@ export const SavedPage = () => {
               type={type}
               date={date}
               values={values}
-              openModal={() => openModal({title: name, dataToCode: string, description: values, type, date})}
+              openModal={() =>
+                openModal({
+                  title: name,
+                  dataToCode: string,
+                  description: values,
+                  type,
+                  date,
+                })
+              }
               editHandler={() => editHandler(type, name)}
               downloadHandler={(value) =>
                 downloadPNG(value, { margin: 1, scale: 12 })
@@ -92,6 +122,15 @@ export const SavedPage = () => {
           </Grid>
         ))}
       </Grid>
+      {!!codes.length && (
+        <Button
+          className={classes.removeBtn}
+          onClick={() => setDeleteDialogIsOpen(true)}
+          variant="contained"
+        >
+          Remove all
+        </Button>
+      )}
       <CodeModal
         open={modalOpen.isOpen}
         title={modalOpen.content.title}
@@ -100,6 +139,11 @@ export const SavedPage = () => {
         date={modalOpen.content.date}
         type={modalOpen.content.type}
         onClose={closeModal}
+      />
+      <DeleteCodesDialog
+        isOpen={deleteDialogIsOpen}
+        toCancel={() => setDeleteDialogIsOpen(false)}
+        toConfirm={removeAllCodes}
       />
     </Grid>
   );
