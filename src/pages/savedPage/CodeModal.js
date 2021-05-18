@@ -5,6 +5,7 @@ import {
   Paper,
   Typography,
   Divider,
+  Grid,
 } from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { useQrGenerator } from "../../reactHooks/useQrGenerator";
@@ -19,6 +20,8 @@ const useStyles = makeStyles((theme) => ({
   },
   modalPaper: {
     outline: "none",
+    overflow: 'auto',
+    maxHeight: '95vh',
     padding: theme.spacing(2, 4, 3),
   },
   title: {
@@ -81,7 +84,9 @@ export const CodeModal = ({
             {title}
           </Typography>
           <Divider className={classes.divider} />
+          <Grid container justify="center">
             <img className={classes.image} alt= "qr code" src={codeUrl} />
+          </Grid>
             <div className={classes.subtitles}>
                 <Typography variant="subtitle2">{`Type: ${type}`}</Typography>
                 <Typography variant="subtitle2">{date}</Typography>
