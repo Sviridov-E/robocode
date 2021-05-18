@@ -13,6 +13,7 @@ import { serializeWifi } from "../../lib/serializers";
 import { useSelector } from "react-redux";
 import useQuery from "../../reactHooks/useQuery";
 import { selectSavedCodes } from "../../redux/slices/savedCodesSlice";
+import { useLocation } from "react-router";
 
 export const EncodeWifi = ({ setEncodingData }) => {
   const [state, setState] = useState({
@@ -25,15 +26,17 @@ export const EncodeWifi = ({ setEncodingData }) => {
   const query = useQuery();
   const savedCodes = useSelector(selectSavedCodes)
   const codeName = query.get('code');
+  const location = useLocation()
 
   const fillFieldsFromStore = useCallback(() => {
     setState(state => ({...state, ...savedCodes[codeName].values}));
   }, [setState, savedCodes, codeName])
 
   useEffect(() => {
-    if(!codeName) return;
+    const type = location.pathname.split('/').pop();
+    if(!codeName || type !== savedCodes[codeName].type) return;
     fillFieldsFromStore();
-  }, [fillFieldsFromStore, codeName])
+  }, [fillFieldsFromStore, codeName, location.pathname, savedCodes])
 
   const changeDataToEncode = (e) => {
     const value =

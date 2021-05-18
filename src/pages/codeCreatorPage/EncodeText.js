@@ -16,9 +16,10 @@ export const EncodeText = ({ setEncodingData }) => {
   }, [setState, savedCodes, codeName])
 
   useEffect(() => {
-    if(!codeName) return;
+    const type = 'text';
+    if(!codeName || type !== savedCodes[codeName].type) return;
     fillFieldsFromStore();
-  }, [fillFieldsFromStore, codeName])
+  }, [fillFieldsFromStore, codeName, savedCodes])
   
   const changeDataToEncode = (e) => {
     const value = e.target.value;

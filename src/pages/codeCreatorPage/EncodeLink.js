@@ -1,6 +1,7 @@
 import { TextField } from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import { serializeLink } from "../../lib/serializers";
 import useQuery from "../../reactHooks/useQuery";
 import { selectSavedCodes } from "../../redux/slices/savedCodesSlice";
@@ -11,15 +12,17 @@ export const EncodeLink = ({ setEncodingData }) => {
   const query = useQuery();
   const savedCodes = useSelector(selectSavedCodes)
   const codeName = query.get('code');
+  const location = useLocation();
 
   const fillFieldsFromStore = useCallback(() => {
     setState(savedCodes[codeName].values);
   }, [setState, savedCodes, codeName])
 
   useEffect(() => {
-    if(!codeName) return;
+    const type = location.pathname.split('/').pop();
+    if(!codeName || type !== savedCodes[codeName].type) return;
     fillFieldsFromStore();
-  }, [fillFieldsFromStore, codeName])
+  }, [fillFieldsFromStore, codeName, location.pathname, savedCodes]);
 
 
   const changeDataToEncode = (e) => {

@@ -11,6 +11,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: 10,
   },
+  divider: {
+    marginTop: 10,
+    marginBottom: 10
+  }
 }));
 
 export const SavedPage = () => {
@@ -67,7 +71,7 @@ export const SavedPage = () => {
   return (
     <Grid className={classes.root} spacing={2} container>
       <Grid container item justify="center">
-        <Typography variant="h4">Saved codes</Typography>
+        <Typography variant="h4" color="primary">Saved codes</Typography>
       </Grid>
       <Grid container item spacing={2}>
         {codes.map(({ url, name, string, type, date, values }) => (
