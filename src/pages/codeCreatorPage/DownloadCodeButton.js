@@ -1,17 +1,17 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Paper from '@material-ui/core/Paper';
-import Popper from '@material-ui/core/Popper';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
+import React from "react";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Grow from "@material-ui/core/Grow";
+import Paper from "@material-ui/core/Paper";
+import Popper from "@material-ui/core/Popper";
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuList from "@material-ui/core/MenuList";
 
-const options = ['PNG', 'JPG', 'SVG', 'WebP'];
+const options = ["PNG", "JPG", "SVG", "WebP"];
 
-export const DownloadCodeButton = ({disabled, savers}) => {
+export const DownloadCodeButton = ({ disabled, savers }) => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -38,7 +38,7 @@ export const DownloadCodeButton = ({disabled, savers}) => {
   };
 
   return (
-    <Grid container direction="column" alignItems="center">
+    <div>
       <Grid item xs={12}>
         <ButtonGroup disabled={disabled} variant="contained" color="primary">
           <Button onClick={handleClick}>download</Button>
@@ -51,11 +51,15 @@ export const DownloadCodeButton = ({disabled, savers}) => {
             {options[selectedIndex]}
           </Button>
         </ButtonGroup>
-        <Popper open={open} anchorEl={anchorRef.current} transition disablePortal placement="bottom">
+        <Popper
+          open={open}
+          anchorEl={anchorRef.current}
+          transition
+          disablePortal
+          placement="bottom"
+        >
           {({ TransitionProps }) => (
-            <Grow
-              {...TransitionProps}
-            >
+            <Grow {...TransitionProps}>
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList>
@@ -75,6 +79,6 @@ export const DownloadCodeButton = ({disabled, savers}) => {
           )}
         </Popper>
       </Grid>
-    </Grid>
+    </div>
   );
-}
+};

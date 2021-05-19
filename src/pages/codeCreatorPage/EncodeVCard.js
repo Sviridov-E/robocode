@@ -126,7 +126,7 @@ export const EncodeVCard = ({ setEncodingData }) => {
             type="url"
             label="Website"
             name="url"
-            placeholder="https://exampe.com"
+            placeholder="https://example.com"
             variant="outlined"
             value={state.url}
             onChange={changeDataToEncode}

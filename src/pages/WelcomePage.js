@@ -88,18 +88,6 @@ export const WelcomePage = () => {
             Try Now!
           </Button>
         </Grid>
-        <Grid item>
-          <Button
-            fullWidth={isMobile}
-            variant="contained"
-            color="primary"
-            size="large"
-            component={Link}
-            to="/main/login"
-          >
-            Sign in
-          </Button>
-        </Grid>
       </Grid>
     </Grid>
   );

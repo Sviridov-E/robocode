@@ -33,7 +33,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   saveCode as saveCodeAction,
   selectCodesLength,
-  selectSavedCodes
+  selectSavedCodes,
 } from "../../redux/slices/savedCodesSlice";
 import { ModalForm } from "./ModalForm";
 
@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
   tabBox: {
     display: "flex",
     alignItems: "center",
+    flexGrow: 1
   },
   qrWrapper: {
     padding: theme.spacing(1),
@@ -56,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
   bottomButtons: {
     marginTop: "2rem",
   },
+  tab: {
+    flexGrow: '1'
+  }
 }));
 
 export const CodeCreatorPage = () => {
@@ -79,7 +83,9 @@ export const CodeCreatorPage = () => {
   const handleChangeTypeOfData = (e, val) => setTypeOfData(val);
   const location = useLocation();
   useEffect(() => {
-    history.push(`${typeOfData ? url + "/" + typeOfData : url}${location.search}`);
+    history.push(
+      `${typeOfData ? url + "/" + typeOfData : url}${location.search}`
+    );
   }, [typeOfData, history, url, location.search]);
 
   useEffect(() => {
@@ -119,28 +125,45 @@ export const CodeCreatorPage = () => {
   /* ********Entering name for saving code*********** */
   const [codeNameForm, setCodeNameForm] = useState({
     isOpen: false,
-    name: "My code "
+    name: "My code ",
   });
   const codeNameFormClose = () => {
     setCodeNameForm({
       isOpen: false,
-      name: "My code "
-    })
-  }
+      name: "My code ",
+    });
+  };
   const codeNameFormOpen = () => {
     setCodeNameForm({
       isOpen: true,
-      name: "My code " + (1 + codesLength)
-    })
-  }
+      name: "My code " + (1 + codesLength),
+    });
+  };
   const codeNameFormSubmit = useCallback(() => {
-    if(Object.keys(savedCodes).includes(codeNameForm.name)) {
-      return openToast({content: "This name is already taken!", type: 'error'});
+    if (Object.keys(savedCodes).includes(codeNameForm.name)) {
+      return openToast({
+        content: "This name is already taken!",
+        type: "error",
+      });
     }
-    saveCode({ ...encodingData, type: typeOfData || "text", date: new Date().toLocaleDateString()}, codeNameForm.name);
+    saveCode(
+      {
+        ...encodingData,
+        type: typeOfData || "text",
+        date: new Date().toLocaleDateString(),
+      },
+      codeNameForm.name
+    );
     openToast({ content: "Code was successfully saved!" });
     codeNameFormClose();
-  }, [savedCodes, codeNameForm.name, encodingData, openToast, saveCode, typeOfData])
+  }, [
+    savedCodes,
+    codeNameForm.name,
+    encodingData,
+    openToast,
+    saveCode,
+    typeOfData,
+  ]);
   /* ************************************************ */
 
   return (
@@ -150,10 +173,12 @@ export const CodeCreatorPage = () => {
         indicatorColor="primary"
         textColor="primary"
         onChange={handleChangeTypeOfData}
-        centered
+        variant="scrollable"
+        scrollButtons="auto"
       >
         <Tab
           value={0}
+          className={classes.tab}
           label={
             <Box className={classes.tabBox}>
               <TextFormatIcon />
@@ -165,6 +190,7 @@ export const CodeCreatorPage = () => {
         />
         <Tab
           value="phone"
+          className={classes.tab}
           label={
             <Box className={classes.tabBox}>
               <PhoneIcon />
@@ -176,6 +202,7 @@ export const CodeCreatorPage = () => {
         />
         <Tab
           value="link"
+          className={classes.tab}
           label={
             <Box className={classes.tabBox}>
               <LinkIcon />
@@ -187,6 +214,7 @@ export const CodeCreatorPage = () => {
         />
         <Tab
           value="wifi"
+          className={classes.tab}
           label={
             <Box className={classes.tabBox}>
               <WifiIcon />
@@ -198,6 +226,7 @@ export const CodeCreatorPage = () => {
         />
         <Tab
           value="card"
+          className={classes.tab}
           label={
             <Box className={classes.tabBox}>
               <BusinessCenterIcon />
@@ -244,8 +273,8 @@ export const CodeCreatorPage = () => {
           </Paper>
         </Grid>
         <Grid className={classes.bottomButtons} container justify="center">
-          <Grid container item xs={6}>
-            <Grid item container xs justify="center">
+          <Grid container item xs={6} spacing={3}>
+            <Grid item container md={6} justify="center">
               <Button
                 onClick={saveClickHandler}
                 disabled={!qr}
@@ -256,7 +285,7 @@ export const CodeCreatorPage = () => {
                 save
               </Button>
             </Grid>
-            <Grid item container xs justify="center">
+            <Grid item container md={6} justify="center">
               <DownloadCodeButton savers={savers} disabled={!qr} />
             </Grid>
           </Grid>
@@ -268,7 +297,9 @@ export const CodeCreatorPage = () => {
         onSubmit={codeNameFormSubmit}
         handleClose={codeNameFormClose}
         text={codeNameForm.name}
-        setText={(e) => setCodeNameForm(state => ({...state, name: e.target.value}))}
+        setText={(e) =>
+          setCodeNameForm((state) => ({ ...state, name: e.target.value }))
+        }
         open={codeNameForm.isOpen}
       />
     </>

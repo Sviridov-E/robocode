@@ -14,7 +14,7 @@ export const useQrGenerator = () => {
   });
 
   const qr = useMemo(
-    () => (!base.png ? null : <img alt="qr code" src={base.png} />),
+    () => (!base.png ? null : <img alt="qr code" src={base.png} style={{width: '100%', objectFit: 'contain'}}/>),
     [base]
   );
 

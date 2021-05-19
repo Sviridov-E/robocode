@@ -44,6 +44,7 @@ export const EncodePhone = ({ setEncodingData }) => {
         fullWidth
         value={state}
         onChange={changeDataToEncode}
+        type="tel"
       />
     </>
   );
