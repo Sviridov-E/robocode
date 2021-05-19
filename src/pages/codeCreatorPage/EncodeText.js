@@ -3,6 +3,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import useQuery from "../../reactHooks/useQuery";
 import { selectSavedCodes } from "../../redux/slices/savedCodesSlice";
+import PropTypes from 'prop-types';
 
 export const EncodeText = ({ setEncodingData }) => {
   const [state, setState] = useState("");
@@ -41,3 +42,7 @@ export const EncodeText = ({ setEncodingData }) => {
     </>
   );
 };
+
+EncodeText.propTypes = {
+  setEncodingData: PropTypes.func
+}

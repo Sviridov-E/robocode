@@ -67,5 +67,5 @@ export const ValuesList = ({ content }) => {
 };
 
 ValuesList.propTypes = {
-    description: PropTypes.oneOfType([PropTypes.object, PropTypes.string])
+    content: PropTypes.oneOfType([PropTypes.object, PropTypes.string])
 }

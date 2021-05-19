@@ -5,6 +5,7 @@ import { useLocation } from "react-router";
 import { serializeLink } from "../../lib/serializers";
 import useQuery from "../../reactHooks/useQuery";
 import { selectSavedCodes } from "../../redux/slices/savedCodesSlice";
+import PropTypes from 'prop-types';
 
 export const EncodeLink = ({ setEncodingData }) => {
   const [state, setState] = useState("");
@@ -47,3 +48,7 @@ export const EncodeLink = ({ setEncodingData }) => {
     </>
   );
 };
+
+EncodeLink.propTypes = {
+  setEncodingData: PropTypes.func
+}

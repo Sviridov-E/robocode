@@ -7,6 +7,7 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 import React, { useCallback } from "react";
+import PropTypes from 'prop-types';
 
 export const DeleteCodesDialog = ({ isOpen, toCancel, toConfirm }) => {
   const handleRemove = useCallback(() => {
@@ -34,3 +35,9 @@ export const DeleteCodesDialog = ({ isOpen, toCancel, toConfirm }) => {
     </Dialog>
   );
 };
+
+DeleteCodesDialog.propTypes = {
+  isOpen: PropTypes.bool,
+  toCancel: PropTypes.func,
+  toConfirm: PropTypes.func
+}

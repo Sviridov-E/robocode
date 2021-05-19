@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import useQuery from "../../reactHooks/useQuery";
 import { selectSavedCodes } from "../../redux/slices/savedCodesSlice";
 import { useLocation } from "react-router";
+import PropTypes from 'prop-types';
 
 export const EncodeWifi = ({ setEncodingData }) => {
   const [state, setState] = useState({
@@ -113,3 +114,7 @@ export const EncodeWifi = ({ setEncodingData }) => {
     </Grid>
   );
 };
+
+EncodeWifi.propTypes = {
+  setEncodingData: PropTypes.func
+}

@@ -5,6 +5,7 @@ import { useLocation } from "react-router";
 import { serializeVCard } from "../../lib/serializers";
 import useQuery from "../../reactHooks/useQuery";
 import { selectSavedCodes } from "../../redux/slices/savedCodesSlice";
+import PropTypes from 'prop-types';
 
 export const EncodeVCard = ({ setEncodingData }) => {
   const [state, setState] = useState({
@@ -126,7 +127,7 @@ export const EncodeVCard = ({ setEncodingData }) => {
             type="url"
             label="Website"
             name="url"
-            placeholder="https://exampe.com"
+            placeholder="https://example.com"
             variant="outlined"
             value={state.url}
             onChange={changeDataToEncode}
@@ -136,3 +137,7 @@ export const EncodeVCard = ({ setEncodingData }) => {
     </>
   );
 };
+
+EncodeVCard.propTypes = {
+  setEncodingData: PropTypes.func
+}

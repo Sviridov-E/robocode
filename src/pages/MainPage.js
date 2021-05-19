@@ -25,6 +25,10 @@ const useStyles = makeStyles({
     marginRight: "40px",
     color: grey[50],
   },
+  buttonMobile: {
+    marginRight: "10px",
+    color: grey[50],
+  },
   content: {
     marginTop: "100px",
   },
@@ -48,14 +52,10 @@ export const MainPage = () => {
           <Typography style={{ flexGrow: 1 }} variant="h5">
             RoboCode
           </Typography>
-          {!isMobile && (
             <Box>
-              <Button className={classes.button} component={Link} to={`${url}`}>Creator</Button>
-              <Button className={classes.button} component={Link} to={`${url}/saved`}>Saved</Button>
-              <Button className={classes.button} component={Link} to={`${url}/settings`}>Settings</Button>
-              <Button className={classes.button} component={Link} to={`${url}/login`}>Log In</Button>
+              <Button className={isMobile ? classes.buttonMobile : classes.button} component={Link} to={`${url}`}>Creator</Button>
+              <Button className={isMobile ? classes.buttonMobile : classes.button} component={Link} to={`${url}/saved`}>Saved</Button>
             </Box>
-          )}
         </Toolbar>
       </AppBar>
       <Grid className={classes.content} container justify="center">

@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import useQuery from "../../reactHooks/useQuery";
 import { selectSavedCodes } from "../../redux/slices/savedCodesSlice";
 import { useLocation } from "react-router";
+import PropTypes from 'prop-types';
 
 export const EncodePhone = ({ setEncodingData }) => {
   const [state, setState] = useState("");
@@ -44,7 +45,12 @@ export const EncodePhone = ({ setEncodingData }) => {
         fullWidth
         value={state}
         onChange={changeDataToEncode}
+        type="tel"
       />
     </>
   );
 };
+
+EncodePhone.propTypes = {
+  setEncodingData: PropTypes.func
+}
