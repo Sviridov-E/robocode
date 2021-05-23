@@ -83,8 +83,8 @@ export const DownloadCodeButton = ({ disabled, savers }) => {
     </div>
   );
 };
-
 DownloadCodeButton.propTypes = {
   disabled: PropTypes.bool,
   savers: PropTypes.array
 }
+
