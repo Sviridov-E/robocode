@@ -14,7 +14,6 @@ import { grey } from "@material-ui/core/colors";
 import React from "react";
 import { Switch, Route, useRouteMatch } from "react-router";
 import { SavedPage } from "./savedPage/SavedPage";
-import { LoginPage } from "./LoginPage";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
@@ -64,9 +63,6 @@ export const MainPage = () => {
             <Switch>
               <Route path={`${path}/saved`}>
                 <SavedPage />
-              </Route>
-              <Route path={`${path}/login`}>
-                <LoginPage />
               </Route>
               <Route path={path}>
                 <CodeCreatorPage />
