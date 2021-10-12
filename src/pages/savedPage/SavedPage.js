@@ -90,7 +90,7 @@ export const SavedPage = () => {
 
   return (
     <Grid className={classes.root} spacing={2} container>
-      <Grid container item justify="center">
+      <Grid container item justifyContent="center">
         <Typography variant="h4" color="primary">
           Saved codes
         </Typography>

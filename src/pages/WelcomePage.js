@@ -47,7 +47,7 @@ export const WelcomePage = () => {
       className={classes.root}
       container
       align="center"
-      justify="center"
+      justifyContent="center"
       direction="column"
     >
       <Typography
@@ -73,7 +73,7 @@ export const WelcomePage = () => {
         container
         spacing={isMobile ? 2 : 8}
         direction={isMobile ? "column" : "row"}
-        justify="center"
+        justifyContent="center"
       >
         <Grid item>
           <Button

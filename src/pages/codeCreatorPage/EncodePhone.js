@@ -8,31 +8,36 @@ import { useLocation } from "react-router";
 import PropTypes from 'prop-types';
 
 export const EncodePhone = ({ setEncodingData }) => {
-  const [state, setState] = useState("");
+  const [state, setState] = useState('');
 
   const query = useQuery();
-  const savedCodes = useSelector(selectSavedCodes)
+  const savedCodes = useSelector(selectSavedCodes);
   const codeName = query.get('code');
   const location = useLocation();
 
   const fillFieldsFromStore = useCallback(() => {
     setState(savedCodes[codeName].values);
-  }, [setState, savedCodes, codeName])
+  }, [setState, savedCodes, codeName]);
 
   useEffect(() => {
     const type = location.pathname.split('/').pop();
-    if(!codeName || type !== savedCodes[codeName].type) return;
+    if (!codeName || type !== savedCodes[codeName].type) return;
     fillFieldsFromStore();
-  }, [fillFieldsFromStore, codeName, location.pathname, savedCodes])
+  }, [fillFieldsFromStore, codeName, location.pathname, savedCodes]);
 
-  const changeDataToEncode = (e) => {
-    const value = e.target.value;
-    setState(value);
-    setEncodingData({
-      string: serializePhone({tel: state}),
-      values: state
-    });
-  };
+  const changeDataToEncode = useCallback(
+    () => {
+      setEncodingData({
+        string: serializePhone({ tel: state }),
+        values: state,
+      });
+    },
+    [setEncodingData, state]
+  );
+
+  useEffect(() => {
+    changeDataToEncode()
+  }, [setState, state, changeDataToEncode])
 
   return (
     <>
@@ -44,7 +49,7 @@ export const EncodePhone = ({ setEncodingData }) => {
         variant="outlined"
         fullWidth
         value={state}
-        onChange={changeDataToEncode}
+        onChange={(e) => {setState(e.target.value)}}
         type="tel"
       />
     </>

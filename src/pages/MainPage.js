@@ -57,7 +57,7 @@ export const MainPage = () => {
             </Box>
         </Toolbar>
       </AppBar>
-      <Grid className={classes.content} container justify="center">
+      <Grid className={classes.content} container justifyContent="center">
         <Grid item container xs={12} md={9}>
           <Paper elevation={3} className={classes.paper}>
             <Switch>

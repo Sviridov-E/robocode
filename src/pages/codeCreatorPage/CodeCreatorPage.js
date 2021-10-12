@@ -267,14 +267,14 @@ export const CodeCreatorPage = () => {
             </Button>
           </Box>
         </form>
-        <Grid container justify="center">
+        <Grid container justifyContent="center">
           <Paper className={classes.qrWrapper} elevation={3}>
             {qr}
           </Paper>
         </Grid>
-        <Grid className={classes.bottomButtons} container justify="center">
+        <Grid className={classes.bottomButtons} container justifyContent="center">
           <Grid container item xs={8} lg={6} spacing={3}>
-            <Grid item container md={6} justify="center">
+            <Grid item container md={6} justifyContent="center">
               <Button
                 onClick={saveClickHandler}
                 disabled={!qr}
@@ -285,7 +285,7 @@ export const CodeCreatorPage = () => {
                 save
               </Button>
             </Grid>
-            <Grid item container md={6} justify="center">
+            <Grid item container md={6} justifyContent="center">
               <DownloadCodeButton savers={savers} disabled={!qr} />
             </Grid>
           </Grid>

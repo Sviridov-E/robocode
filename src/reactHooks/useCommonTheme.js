@@ -1,10 +1,10 @@
-import { createMuiTheme } from '@material-ui/core';
+import { createTheme } from '@material-ui/core';
 import { green, red } from '@material-ui/core/colors';
 import { useMemo } from 'react';
 
 export const useCommonTheme = () => {
     const theme = useMemo(() => {
-        return createMuiTheme({
+        return createTheme({
             palette: {
                 primary: {
                     main: green[500]

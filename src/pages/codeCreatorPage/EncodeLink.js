@@ -26,14 +26,16 @@ export const EncodeLink = ({ setEncodingData }) => {
   }, [fillFieldsFromStore, codeName, location.pathname, savedCodes]);
 
 
-  const changeDataToEncode = (e) => {
-    const value = e.target.value;
-    setState(value);
+  const changeDataToEncode = useCallback(() => {
     setEncodingData({
       string: serializeLink({link: state}),
       values: state,
     });
-  };
+  }, [state, setEncodingData])
+
+  useEffect(() => {
+    changeDataToEncode()
+  }, [changeDataToEncode])
 
   return (
     <>
@@ -43,7 +45,7 @@ export const EncodeLink = ({ setEncodingData }) => {
         variant="outlined"
         fullWidth
         value={state}
-        onChange={changeDataToEncode}
+        onChange={({target: {value}}) => setState(value)}
       />
     </>
   );
