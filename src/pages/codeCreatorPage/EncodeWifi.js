@@ -62,7 +62,7 @@ export const EncodeWifi = ({ setEncodingData }) => {
         <TextField
           fullWidth
           required
-          label="SSID (Newtwork Name)"
+          label="SSID (Network Name)"
           name="ssid"
           placeholder="My Network"
           variant="outlined"
