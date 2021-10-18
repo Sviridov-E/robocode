@@ -105,7 +105,7 @@ export const EncodeWifi = ({ setEncodingData }) => {
           type="password"
           label="Password"
           name="password"
-          placeholder="My Network"
+          placeholder="My Pass"
           variant="outlined"
           value={state.password}
           onChange={changeDataToEncode}
